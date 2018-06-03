@@ -1,6 +1,6 @@
 [package]
 name = "colored-diff"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Christopher Durham <cad97@cad97.com>"]
 
 license = "MIT OR Unlicense"
@@ -15,7 +15,7 @@ exclude = ["/.github/**/*", "/.idea/**/*", "/colored-diff.iml"]
 [badges]
 is-it-maintained-issue-resolution = { repository = "https://github.com/CAD97/colored-diff" }
 is-it-maintained-open-issues = { repository = "https://github.com/CAD97/colored-diff" }
-maintenace = { status = "passively-maintained" }
+maintenance = { status = "passively-maintained" }
 
 [dependencies]
 difference = "2.0.0"
