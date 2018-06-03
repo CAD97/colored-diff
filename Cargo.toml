@@ -1,0 +1,23 @@
+[package]
+name = "colored-diff"
+version = "0.1.0"
+authors = ["Christopher Durham <cad97@cad97.com>"]
+
+license = "MIT OR Unlicense"
+readme = "README.md"
+description = "Format the difference between two strings with ANSI colors"
+repository = "https://github.com/CAD97/colored-diff"
+keywords = ["pretty-assertions", "diff", "difference"]
+categories = ["development-tools::testing"]
+
+exclude = ["/.github/**/*", "/.idea/**/*", "/colored-diff.iml"]
+
+[badges]
+is-it-maintained-issue-resolution = { repository = "https://github.com/CAD97/colored-diff" }
+is-it-maintained-open-issues = { repository = "https://github.com/CAD97/colored-diff" }
+maintanace = { status = "passively-maintained" }
+
+[dependencies]
+difference = "2.0.0"
+ansi_term = "0.11.0"
+itertools = { version = "0.7.8", default-features = false }

@@ -1,0 +1,153 @@
+#![no_std]
+
+extern crate ansi_term;
+extern crate difference;
+extern crate itertools;
+
+use ansi_term::{ANSIGenericString, Colour};
+use core::fmt;
+use difference::{Changeset, Difference};
+use itertools::Itertools;
+
+fn red(s: &str) -> ANSIGenericString<str> {
+    Colour::Red.paint(s)
+}
+fn on_red(s: &str) -> ANSIGenericString<str> {
+    Colour::White.on(Colour::Red).bold().paint(s)
+}
+fn green(s: &str) -> ANSIGenericString<str> {
+    Colour::Green.paint(s)
+}
+fn on_green(s: &str) -> ANSIGenericString<str> {
+    Colour::White.on(Colour::Green).bold().paint(s)
+}
+
+static LEFT: &str = "<";
+static NL_LEFT: &str = "\n<";
+static RIGHT: &str = ">";
+static NL_RIGHT: &str = "\n>";
+
+/// On Windows, the console has to be told to enable ANSI escape code colors.
+/// This function does so on Windows, and is a no-op on other targets.
+#[inline]
+pub fn init() {
+    if cfg!(windows) {
+        ansi_term::enable_ansi_support().ok();
+    }
+}
+
+#[derive(Copy, Clone, Debug)]
+pub struct PrettyDifference<'a> {
+    pub expected: &'a str,
+    pub actual: &'a str,
+}
+
+impl<'a> fmt::Display for PrettyDifference<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        diff(f, self.expected, self.actual)
+    }
+}
+
+/// Format the difference between strings using GitHub-like formatting with ANSI coloring.
+pub fn diff(f: &mut fmt::Formatter, expected: &str, actual: &str) -> fmt::Result {
+    let changeset = Changeset::new(expected, actual, "\n");
+    fmt_changeset(f, &changeset)
+}
+
+fn fmt_changeset(f: &mut fmt::Formatter, changeset: &Changeset) -> fmt::Result {
+    let diffs = &changeset.diffs;
+
+    writeln!(f, "{} {} / {} {}",
+        red(LEFT), red("left"),
+        green(RIGHT), green("right"),
+    )?;
+
+    for (i, diff) in diffs.iter().enumerate() {
+        match diff {
+            Difference::Same(text) => {
+                format_same(f, text)?;
+            }
+            Difference::Add(added) => {
+                if let Some(Difference::Rem(removed)) = diffs.get(i - 1) {
+                    format_add_rem(f, added, removed)?;
+                } else {
+                    format_add(f, added)?;
+                }
+            }
+            Difference::Rem(removed) => {
+                if let Some(Difference::Add(_)) = diffs.get(i + 1) {
+                    continue;
+                } else {
+                    format_rem(f, removed)?;
+                }
+            }
+        }
+    }
+
+    Ok(())
+}
+
+fn format_add_rem(f: &mut fmt::Formatter, added: &str, removed: &str) -> fmt::Result {
+    let Changeset { diffs, .. } = Changeset::new(removed, added, "");
+
+    // LEFT (removed)
+    write!(f, "{}", red(LEFT))?;
+    for diff in &diffs {
+        match diff {
+            Difference::Same(text) => {
+                for blob in text.split('\n').intersperse(NL_LEFT) {
+                    write!(f, "{}", red(blob))?;
+                }
+            }
+            Difference::Rem(text) => {
+                for blob in text.split('\n').intersperse(NL_LEFT) {
+                    write!(f, "{}", on_red(blob))?;
+                }
+            }
+            Difference::Add(_) => continue,
+        }
+    }
+    writeln!(f)?;
+
+    // RIGHT (added)
+    write!(f, "{}", green(RIGHT))?;
+    for diff in &diffs {
+        match diff {
+            Difference::Same(text) => {
+                for blob in text.split('\n').intersperse(NL_RIGHT) {
+                    write!(f, "{}", green(blob))?;
+                }
+            }
+            Difference::Add(text) => {
+                for blob in text.split('\n').intersperse(NL_RIGHT) {
+                    write!(f, "{}", on_green(blob))?;
+                }
+            }
+            Difference::Rem(_) => continue,
+        }
+    }
+    writeln!(f)?;
+
+    Ok(())
+}
+
+fn format_same(f: &mut fmt::Formatter, text: &str) -> fmt::Result {
+    for line in text.split('\n') {
+        writeln!(f, " {}", line)?;
+    }
+    Ok(())
+}
+
+fn format_add(f: &mut fmt::Formatter, text: &str) -> fmt::Result {
+    for line in text.split('\n') {
+        writeln!(f, "{}{}", green(RIGHT), green(line))?;
+    }
+    Ok(())
+}
+
+fn format_rem(f: &mut fmt::Formatter, text: &str) -> fmt::Result {
+    for line in text.split('\n') {
+        writeln!(f, "{}{}", red(LEFT), red(line))?;
+    }
+    Ok(())
+}
