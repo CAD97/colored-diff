@@ -3,9 +3,9 @@ extern crate difference;
 extern crate itertools;
 
 use ansi_term::{ANSIGenericString, Colour};
-use std::{sync::Once, fmt};
 use difference::{Changeset, Difference};
 use itertools::Itertools;
+use std::{fmt, sync::Once};
 
 fn red(s: &str) -> ANSIGenericString<str> {
     Colour::Red.paint(s)
