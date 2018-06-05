@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## v0.2.0 - 2018-06-05
+Removed `init()`. Instead, ANSI is automatically enabled the first time an ANSI string is crated.
+
 ## v0.1.2 - 2018-06-02
 Initial release!
 
