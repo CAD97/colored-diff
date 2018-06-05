@@ -29,7 +29,7 @@ static NL_RIGHT: &str = "\n>";
 fn enable_ansi() {
     if cfg!(windows) {
         static ONCE: Once = Once::new();
-        ONCE.call_once(|| ansi_term::enable_ansi_support().ok());
+        ONCE.call_once(|| {ansi_term::enable_ansi_support().ok();});
     }
 }
 
