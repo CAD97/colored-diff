@@ -14,6 +14,5 @@ fn main() {
         (It's quite true).\n\
     ";
 
-    colored_diff::init();
     println!("{}", colored_diff::PrettyDifference { expected, actual })
 }

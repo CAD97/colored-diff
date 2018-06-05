@@ -14,6 +14,5 @@ fn main() {
     let x = format!("{:#?}", x);
     let y = format!("{:#?}", y);
 
-    colored_diff::init();
     println!("{}", colored_diff::PrettyDifference { expected: &x, actual: &y })
 }

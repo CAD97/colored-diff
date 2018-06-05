@@ -29,7 +29,6 @@ let actual = "\
     (It's quite true).\n\
 ";
 
-colored_diff::init();
 println!("{}", colored_diff::PrettyDifference { expected, actual })
 ```
 
@@ -49,6 +48,5 @@ let y = Some(Foo { lorem: "Hello Wrold!", ipsum: 42, dolor: Ok("hey ho!".to_stri
 let x = format!("{:#?}", x);
 let y = format!("{:#?}", y);
 
-colored_diff::init();
 println!("{}", colored_diff::PrettyDifference { expected: &x, actual: &y })
 ```

@@ -1,11 +1,9 @@
-#![no_std]
-
 extern crate ansi_term;
 extern crate difference;
 extern crate itertools;
 
 use ansi_term::{ANSIGenericString, Colour};
-use core::fmt;
+use std::{sync::Once, fmt};
 use difference::{Changeset, Difference};
 use itertools::Itertools;
 
@@ -27,12 +25,11 @@ static NL_LEFT: &str = "\n<";
 static RIGHT: &str = ">";
 static NL_RIGHT: &str = "\n>";
 
-/// On Windows, the console has to be told to enable ANSI escape code colors.
-/// This function does so on Windows, and is a no-op on other targets.
-#[inline]
-pub fn init() {
+#[inline(always)]
+fn enable_ansi() {
     if cfg!(windows) {
-        ansi_term::enable_ansi_support().ok();
+        static ONCE: Once = Once::new();
+        ONCE.call_once(|| ansi_term::enable_ansi_support().ok());
     }
 }
 
@@ -55,13 +52,14 @@ pub fn diff(f: &mut fmt::Formatter, expected: &str, actual: &str) -> fmt::Result
 }
 
 fn fmt_changeset(f: &mut fmt::Formatter, changeset: &Changeset) -> fmt::Result {
-    let diffs = &changeset.diffs;
+    enable_ansi();
 
     writeln!(f, "{} {} / {} {}",
         red(LEFT), red("left"),
         green(RIGHT), green("right"),
     )?;
 
+    let diffs = &changeset.diffs;
     for (i, diff) in diffs.iter().enumerate() {
         match diff {
             Difference::Same(text) => {
