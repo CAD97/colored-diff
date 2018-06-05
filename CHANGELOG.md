@@ -12,5 +12,5 @@ Removed `init()`. Instead, ANSI is automatically enabled the first time an ANSI 
 ## v0.1.2 - 2018-06-02
 Initial release!
 
-[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.0...HEAD
-[v0.2.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.1.2...v0.2.0
+[Unreleased]: https://github.com/cad97/colored-diff/compare/v0.2.0...HEAD
+[v0.2.0]: https://github.com/cad97/colored-diff/compare/v0.1.2...v0.2.0
