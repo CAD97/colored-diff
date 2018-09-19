@@ -20,7 +20,7 @@ before_script:
 
 script:
   - |
-      travis-cargo check
+      travis-cargo build
 
 env:
   global:
