@@ -5,7 +5,7 @@ extern crate itertools;
 use ansi_term::{ANSIGenericString, Colour};
 use difference::{Changeset, Difference};
 use itertools::Itertools;
-use std::{fmt, sync::Once};
+use std::fmt;
 
 fn red(s: &str) -> ANSIGenericString<str> {
     Colour::Red.paint(s)
@@ -25,12 +25,18 @@ static NL_LEFT: &str = "\n<";
 static RIGHT: &str = ">";
 static NL_RIGHT: &str = "\n>";
 
+#[cfg(windows)]
 #[inline(always)]
 fn enable_ansi() {
-    if cfg!(windows) {
-        static ONCE: Once = Once::new();
-        ONCE.call_once(|| {ansi_term::enable_ansi_support().ok();});
-    }
+    use std::sync::Once;
+
+    static ONCE: Once = Once::new();
+    ONCE.call_once(|| {ansi_term::enable_ansi_support().ok();});
+}
+
+#[cfg(not(windows))]
+#[inline(always)]
+fn enable_ansi() {
 }
 
 #[derive(Copy, Clone, Debug)]
