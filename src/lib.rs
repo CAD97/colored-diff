@@ -72,7 +72,7 @@ fn fmt_changeset(f: &mut fmt::Formatter, changeset: &Changeset) -> fmt::Result {
                 format_same(f, text)?;
             }
             Difference::Add(added) => {
-                if let Some(Difference::Rem(removed)) = diffs.get(i.wrapping_sub(1)) {
+                if let Some(Difference::Rem(removed)) = i.checked_sub(1).map(|i| &diffs[i]) {
                     format_add_rem(f, added, removed)?;
                 } else {
                     format_add(f, added)?;
