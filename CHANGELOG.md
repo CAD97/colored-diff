@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Fix overflow panic when the first change is an addition.
 
-## [v0.2.1] - 2018-09-24
+## v0.2.1 - 2018-09-24
 
 - Fix build for non-Windows platforms
 
@@ -22,5 +22,4 @@ Initial release!
 
 [Unreleased]: https://github.com/cad97/colored-diff/compare/v0.2.2...HEAD
 [v0.2.0]: https://github.com/cad97/colored-diff/compare/v0.1.2...v0.2.0
-[v0.2.1]: https://github.com/cad97/colored-diff/compare/v0.2.0...v0.2.1
-[v0.2.2]: https://github.com/cad97/colored-diff/compare/v0.2.1...v0.2.2
+[v0.2.2]: https://github.com/cad97/colored-diff/compare/v0.2.0...v0.2.2
