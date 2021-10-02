@@ -99,12 +99,12 @@ fn format_add_rem(f: &mut fmt::Formatter, added: &str, removed: &str) -> fmt::Re
     for diff in &diffs {
         match diff {
             Difference::Same(text) => {
-                for blob in text.split('\n').intersperse(NL_LEFT) {
+                for blob in Itertools::intersperse(text.split('\n'), NL_LEFT) {
                     write!(f, "{}", red(blob))?;
                 }
             }
             Difference::Rem(text) => {
-                for blob in text.split('\n').intersperse(NL_LEFT) {
+                for blob in Itertools::intersperse(text.split('\n'), NL_LEFT)  {
                     write!(f, "{}", on_red(blob))?;
                 }
             }
@@ -118,12 +118,12 @@ fn format_add_rem(f: &mut fmt::Formatter, added: &str, removed: &str) -> fmt::Re
     for diff in &diffs {
         match diff {
             Difference::Same(text) => {
-                for blob in text.split('\n').intersperse(NL_RIGHT) {
+                for blob in Itertools::intersperse(text.split('\n'), NL_RIGHT) {
                     write!(f, "{}", green(blob))?;
                 }
             }
             Difference::Add(text) => {
-                for blob in text.split('\n').intersperse(NL_RIGHT) {
+                for blob in Itertools::intersperse(text.split('\n'), NL_RIGHT)  {
                     write!(f, "{}", on_green(blob))?;
                 }
             }
