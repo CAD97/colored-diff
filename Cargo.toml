@@ -18,6 +18,8 @@ is-it-maintained-open-issues = { repository = "https://github.com/CAD97/colored-
 maintenance = { status = "passively-maintained" }
 
 [dependencies]
-difference = "2.0.0"
+dissimilar = "1.0"
 ansi_term = "0.11.0"
 itertools = { version = "0.7.8", default-features = false }
+[dev-dependencies]
+regex = "1.5.4"
