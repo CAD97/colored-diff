@@ -1,7 +1,6 @@
 [package]
 name = "colored-diff"
-version = "0.2.2"
-authors = ["Christopher Durham <cad97@cad97.com>"]
+version = "0.2.3"
 
 license = "MIT OR Unlicense"
 readme = "README.md"
@@ -10,16 +9,15 @@ repository = "https://github.com/CAD97/colored-diff"
 keywords = ["pretty-assertions", "diff", "difference"]
 categories = ["development-tools::testing"]
 
-exclude = ["/.github/**/*", "/.idea/**/*", "/colored-diff.iml"]
+exclude = ["/.github/**/*"]
 
 [badges]
-is-it-maintained-issue-resolution = { repository = "https://github.com/CAD97/colored-diff" }
-is-it-maintained-open-issues = { repository = "https://github.com/CAD97/colored-diff" }
 maintenance = { status = "passively-maintained" }
 
 [dependencies]
 dissimilar = "1.0"
-ansi_term = "0.11.0"
-itertools = { version = "0.7.8", default-features = false }
+ansi_term = "0.12"
+itertools = { version = "0.10", default-features = false }
+
 [dev-dependencies]
-regex = "1.5.4"
+regex = "1.5"
